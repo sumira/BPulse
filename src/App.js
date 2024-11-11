@@ -1,24 +1,38 @@
 import logo from './logo.svg';
-import './App.css';
+import Navbar from './Navbar';
+import { BrowserRouter as Router, Route,Routes} from 'react-router-dom'
+
+import Home from './pages/home'
+import HistoricalData from './pages/historical-data'
+import Notifications from './pages/notifications';
+import Settings from './pages/settings';
+import TechnicalSupport from './pages/technical-support';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          BPulse-web
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <Router>
+
+
+      <Navbar> </Navbar>
+      
+    
+
+    <Routes>
+
+      <Route exact path = "/" Component= {Home} />
+      <Route path="/historical-data" Component={HistoricalData} />
+      <Route path="/notifications" Component={Notifications} />
+      <Route path="Settings" Component={Settings} />
+      <Route path="technical-support" Component={TechnicalSupport} />
+
+    </Routes>
+
+
+
+    </Router>
+    
+    
   );
 }
 

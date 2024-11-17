@@ -11,12 +11,12 @@ const Navbar = () => {
         <div className="text-white text-2xl font-bold">Bpulse</div>
 
         {/* Menu Items */}
-        <div className="hidden md:flex space-x-4 font-mono gap-1">
+        <div className="hidden md:flex space-x-3 font-mono gap-1">
             <Link to="/" className="text-white hover:text-gray-300">Home</Link>
             <Link to="/historical-data" className="text-white hover:text-gray-300">Historical Data</Link>
             <Link to="/notifications" className="text-white hover:text-gray-300">Notifications</Link>
-            <Link to="/settings" className="text-white hover:text-gray-300">Settings</Link>
             <Link to="/technical-support" className="text-white hover:text-gray-300">Technical-Support</Link>
+            <Link to="/settings" className="text-white hover:text-gray-300">Settings</Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -34,8 +34,8 @@ const Navbar = () => {
             <Link to="/" className="text-white hover:text-gray-300 mx-2">Home</Link>
             <Link to="/historical-data" className="text-white hover:text-gray- mx-2">Historical Data</Link>
             <Link to="/notifications" className="text-white hover:text-gray- mx-2">Notifications</Link>
-            <Link to="/settings" className="text-white hover:text-gray- mx-2">Settings</Link>
             <Link to="/technical-support" className="text-white hover:text-gray- mx-2">Technical Support</Link>
+            <Link to="/settings" className="text-white hover:text-gray- mx-2">Settings</Link>
         </div>
       )}
     </nav>

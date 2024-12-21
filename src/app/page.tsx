@@ -37,6 +37,7 @@ export default function Home() {
 
       mqttClient.on("message", (topic, message) => {
         setMessages((prev) => [...prev, message.toString()]);
+        console.log("Received message:", message.toString());
       });
 
       setClient(mqttClient);

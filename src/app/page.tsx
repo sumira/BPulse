@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import mqtt, { IClientOptions } from "mqtt";
 import { GaugeMeter } from "./Components/guage-meter";
 
 export default function Home() {
-  const [client, setClient] = useState<mqtt.MqttClient | null>(null);
+  //const [setClient] = useState<mqtt.MqttClient | null>(null);
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
   const [messages, setMessages] = useState<string[]>([]);
   const [value, setValue] = useState(0);
@@ -43,7 +43,7 @@ export default function Home() {
         setValue(parseInt(message.toString()));
       });
 
-      setClient(mqttClient);
+      //setClient(mqttClient);
 
       return () => {
         mqttClient.end();

@@ -4,7 +4,6 @@ import mqtt, { IClientOptions } from "mqtt";
 import { GaugeMeter } from "./Components/guage-meter";
 
 export default function Home() {
-  //const [setClient] = useState<mqtt.MqttClient | null>(null);
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
   const [messages, setMessages] = useState<string[]>([]);
   const [value, setValue] = useState(0);

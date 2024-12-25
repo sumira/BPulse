@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import mqtt, { IClientOptions } from "mqtt";
 import { GaugeMeter } from "./Components/guage-meter";
-import { TabMenu } from "./Components/tab-menu";
 
 export default function Home() {
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");

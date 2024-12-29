@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { createMQTTConnection } from "@/lib/mqtt";
 import { GaugeMeter } from "./Components/guage-meter";
+import { Battery, Thermometer, Zap } from "lucide-react";
 
 export default function Home() {
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
@@ -48,13 +49,30 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div>
+        <div className="mb-4s flex place-content-start p-3 gap-2">
           <GaugeMeter
             minValue={0}
-            maxValue={100}
+            maxValue={24}
             value={value}
-            description={"Chart"}
+            description={"Battery Voltage"}
             title="Battery"
+            icon={Battery}
+          />
+          <GaugeMeter
+            minValue={0}
+            maxValue={12}
+            value={value}
+            description={"Battery Discharge Current"}
+            title="Current"
+            icon={Zap}
+          />
+          <GaugeMeter
+            minValue={0}
+            maxValue={12}
+            value={value}
+            description={"Battery Temperature"}
+            title="Temperature"
+            icon={Thermometer}
           />
         </div>
       </main>

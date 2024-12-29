@@ -49,7 +49,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="mb-4s flex place-content-start p-3 gap-2">
+        <div className="mb-2 grid grid-cols md:flex flex-row items-center md:items-start justify-items-center md:justify-items-start gap-4 p-2">
           <GaugeMeter
             minValue={0}
             maxValue={24}
@@ -68,7 +68,7 @@ export default function Home() {
           />
           <GaugeMeter
             minValue={0}
-            maxValue={12}
+            maxValue={100}
             value={value}
             description={"Battery Temperature"}
             title="Temperature"

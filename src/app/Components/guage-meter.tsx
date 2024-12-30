@@ -40,7 +40,7 @@ export function GaugeMeter({
   ];
 
   return (
-    <Card className="min-w-72 bg-zinc-50  border-blue-600">
+    <Card className="min-w-72 bg-zinc-50  border-blue-300">
       <CardHeader>
         <CardTitle className="text-xl">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>

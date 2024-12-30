@@ -34,7 +34,7 @@ export default function Navbar() {
               Dashboard
             </Link>
             <Link
-              href="/time-series"
+              href="/historical-data"
               className="text-gray-300 hover:text-white transition-colors duration-200"
             >
               Historical Data
@@ -65,7 +65,7 @@ export default function Navbar() {
               Dashboard
             </Link>
             <Link
-              href="/time-series"
+              href="/historical-data"
               className="block text-gray-300 hover:text-white transition-colors duration-200"
             >
               Historical Data

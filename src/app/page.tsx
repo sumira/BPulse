@@ -7,7 +7,6 @@ import { Battery, Thermometer, Zap } from "lucide-react";
 
 export default function Home() {
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
-  //const [messages, setMessages] = useState<string[]>([]);
   const [value, setValue] = useState(0);
 
   const [currentTime, setCurrentTime] = useState(new Date());

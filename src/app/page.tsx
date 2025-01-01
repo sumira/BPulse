@@ -7,7 +7,7 @@ import { Battery, Thermometer, Zap } from "lucide-react";
 
 export default function Home() {
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
-  const [messages, setMessages] = useState<string[]>([]);
+  //const [messages, setMessages] = useState<string[]>([]);
   const [value, setValue] = useState(0);
 
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -18,10 +18,7 @@ export default function Home() {
     try {
       const mqttClient = createMQTTConnection({
         onConnect: () => setConnectionStatus("Connected"),
-        onMessage: (topic, message) => {
-          setMessages((prev) => [...prev, message.toString()]);
-          setValue(parseInt(message.toString()));
-        },
+
         onError: (error) => {
           console.error("MQTT Error:", error);
           setConnectionStatus("Error");

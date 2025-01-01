@@ -7,28 +7,38 @@ import { Battery, Thermometer, Zap } from "lucide-react";
 
 export default function Home() {
   const [connectionStatus, setConnectionStatus] = useState("Disconnected");
-  const [value, setValue] = useState(0);
-
+  const [value] = useState(0);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [elapsedTime, setElapsedTime] = useState(0);
   const startTime = useRef(new Date());
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     try {
       const mqttClient = createMQTTConnection({
         onConnect: () => setConnectionStatus("Connected"),
-
         onError: (error) => {
           console.error("MQTT Error:", error);
           setConnectionStatus("Error");
         },
       });
 
+      // Set up timer inside useEffect
+      timerRef.current = setInterval(() => {
+        setCurrentTime(new Date());
+        setElapsedTime(
+          Math.floor(
+            (new Date().getTime() - startTime.current.getTime()) / 1000
+          )
+        );
+      }, 1000);
+
       return () => {
         mqttClient.end();
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+        }
       };
-
-      return () => clearInterval(timer);
     } catch (err) {
       if (err instanceof Error) {
         console.error("Failed to connect:", err.message);
@@ -36,13 +46,6 @@ export default function Home() {
       }
     }
   }, []);
-
-  const timer = setInterval(() => {
-    setCurrentTime(new Date());
-    setElapsedTime(
-      Math.floor((new Date().getTime() - startTime.current.getTime()) / 1000)
-    );
-  }, 1000);
 
   const formatElapsedTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -55,7 +58,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-      {/* Sidebar */}
       <aside className="w-full md:w-64 bg-white shadow-md p-6 border-r">
         <h1 className="text-2xl font-bold mb-6">BPulse Device</h1>
 
@@ -82,10 +84,8 @@ export default function Home() {
         </div>
       </aside>
 
-      {/* Main Content */}
       <main className="flex-1 p-6">
         <div className="max-w-7xl mx-auto">
-          {/* Gauge Meters Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <GaugeMeter
               minValue={0}

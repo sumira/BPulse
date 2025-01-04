@@ -32,7 +32,7 @@ This project utilizes [`next/font`](https://nextjs.org/docs/app/building-your-ap
 ## Communication and Components
 
 - **ESP32 Integration**: Handles data collection from sensors including MAX6675, INA219, and LM35 sensors.
-- **InfluxDB**: Stores historical data for graphing and analysis.
+- **MongoDB**: Stores historical data for graphing and analysis.
 - **HiveMQTT**: Facilitates real-time communication between the application and the ESP32 module.
 
 ## Learn More

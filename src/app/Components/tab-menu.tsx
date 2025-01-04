@@ -14,10 +14,10 @@ import { Label } from "@/components/ui/label";
 
 export function TabMenu() {
   return (
-    <div className="max-w-xl">
-      <h1 className="text-2xl font-bold">Battery Settings</h1>
+    <div className="max-w-xl p-2 m-1 bg-slate-200 border border-blue-500 rounded-lg">
+      <h1 className="text-2xl font-bold text-center mb-2">Battery Settings</h1>
 
-      <Tabs defaultValue="battery">
+      <Tabs defaultValue="lead-acid">
         <TabsList>
           <TabsTrigger value="lead-acid">Lead-Acid</TabsTrigger>
           <TabsTrigger value="li-ion">Li-ion</TabsTrigger>

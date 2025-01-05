@@ -14,6 +14,15 @@ export default function Home() {
   const startTime = useRef(new Date());
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const [userId, setUserId] = useState("");
+  const [deviceId, setDeviceId] = useState("");
+
+  const handleStartMenuSubmit = () => {
+    if (userId && deviceId) {
+      console.log("User ID:", userId && "Device ID:", userId, deviceId);
+    }
+  };
+
   useEffect(() => {
     try {
       const mqttClient = createMQTTConnection({
@@ -24,7 +33,6 @@ export default function Home() {
         },
       });
 
-      // Set up timer inside useEffect
       timerRef.current = setInterval(() => {
         setCurrentTime(new Date());
         setElapsedTime(
@@ -59,7 +67,13 @@ export default function Home() {
 
   return (
     <>
-      <StartMenu />
+      <StartMenu
+        userId={userId}
+        deviceId={deviceId}
+        setUserId={setUserId}
+        setDeviceId={setDeviceId}
+        onSubmit={handleStartMenuSubmit}
+      />
       <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
         <aside className="w-full md:w-64 bg-white shadow-md p-6 border-r">
           <h1 className="text-2xl font-bold mb-6">BPulse Device</h1>

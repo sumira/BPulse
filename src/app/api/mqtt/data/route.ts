@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
+import {NextResponse } from 'next/server';
 import MQTTBackendService from '@/lib/mqtt';
 
-export async function GET(req: NextRequest): Promise<NextResponse> {
+export async function GET(): Promise<NextResponse> {
   try {
     const mqtt = MQTTBackendService.getInstance();
     const temperature = mqtt.getTopicValue('bpulse/temperature');

@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { createMQTTConnection } from "@/lib/mqtt";
 import { GaugeMeter } from "./Components/guage-meter";
 import { Battery, Thermometer, Zap } from "lucide-react";
 import { StartMenu } from "./Components/start-menu";
 
 export default function Home() {
-  const [connectionStatus, setConnectionStatus] = useState("Disconnected");
-  const [value] = useState(0);
+  //const [connectionStatus, setConnectionStatus] = useState("Disconnected");
+  const [temperature, setTemperature] = useState(0);
+  const [voltage, setVoltage] = useState(0);
+  const [current, setCurrent] = useState(0);
+  // const [current, setCurrent] = useState<number | null>(null);
+
   const [currentTime, setCurrentTime] = useState(new Date());
   const [elapsedTime, setElapsedTime] = useState(0);
   const startTime = useRef(new Date());
@@ -25,13 +28,21 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      const mqttClient = createMQTTConnection({
-        onConnect: () => setConnectionStatus("Connected"),
-        onError: (error) => {
-          console.error("MQTT Error:", error);
-          setConnectionStatus("Error");
-        },
-      });
+      //endpoint for fetching temperature data
+      const fetchData = async () => {
+        try {
+          console.log("Fetching data...");
+          const response = await fetch("/api/mqtt/data");
+          const data = await response.json();
+          setTemperature(data.temperature);
+          setVoltage(data.voltage);
+          setCurrent(data.current);
+
+          console.log(data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
 
       timerRef.current = setInterval(() => {
         setCurrentTime(new Date());
@@ -42,17 +53,10 @@ export default function Home() {
         );
       }, 1000);
 
-      return () => {
-        mqttClient.end();
-        if (timerRef.current) {
-          clearInterval(timerRef.current);
-        }
-      };
+      const interval = setInterval(fetchData, 1000);
+      return () => clearInterval(interval);
     } catch (err) {
-      if (err instanceof Error) {
-        console.error("Failed to connect:", err.message);
-        setConnectionStatus("Connection Failed");
-      }
+      console.error("Error fetching data:", err);
     }
   }, []);
 
@@ -78,14 +82,14 @@ export default function Home() {
         <aside className="w-full md:w-64 bg-white shadow-md p-6 border-r">
           <h1 className="text-2xl font-bold mb-6">BPulse Device</h1>
 
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             <div
               className={`w-3 h-3 rounded-full ${
                 connectionStatus === "Connected" ? "bg-green-500" : "bg-red-500"
               }`}
             />
             <p className="text-gray-600">Status: {connectionStatus}</p>
-          </div>
+          </div> */}
 
           <div className="mb-6 space-y-2 py-3">
             <div className="flex items-center justify-between">
@@ -109,7 +113,7 @@ export default function Home() {
               <GaugeMeter
                 minValue={0}
                 maxValue={24}
-                value={value}
+                value={voltage}
                 description="Battery Voltage"
                 title="Battery"
                 icon={Battery}
@@ -117,7 +121,7 @@ export default function Home() {
               <GaugeMeter
                 minValue={0}
                 maxValue={12}
-                value={value}
+                value={current}
                 description="Battery Discharge Current"
                 title="Current"
                 icon={Zap}
@@ -125,7 +129,7 @@ export default function Home() {
               <GaugeMeter
                 minValue={0}
                 maxValue={100}
-                value={value}
+                value={temperature}
                 description="Battery Temperature"
                 title="Temperature"
                 icon={Thermometer}

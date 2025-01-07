@@ -33,12 +33,12 @@ export default function Navbar() {
             >
               Dashboard
             </Link>
-            <Link
+            {/* <Link
               href="/historical-data"
               className="text-gray-300 hover:text-white transition-colors duration-200"
             >
               Historical Data
-            </Link>
+            </Link> */}
             <Link
               href="/allerts"
               className="text-gray-300 hover:text-white transition-colors duration-200"
@@ -64,12 +64,12 @@ export default function Navbar() {
             >
               Dashboard
             </Link>
-            <Link
+            {/* <Link
               href="/historical-data"
               className="block text-gray-300 hover:text-white transition-colors duration-200"
             >
               Historical Data
-            </Link>
+            </Link> */}
             <Link
               href="/allerts"
               className="block text-gray-300 hover:text-white transition-colors duration-200"

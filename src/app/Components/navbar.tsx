@@ -1,6 +1,8 @@
 "use client";
+import I1 from "../../app/assets/logo.png";
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
@@ -11,13 +13,22 @@ export default function Navbar() {
     <nav className="w-full h-20 bg-gradient-to-r from-slate-900 to-slate-800 sticky top-0 z-50 shadow-lg">
       <div className="container mx-auto px-4 h-full">
         <div className="flex items-center justify-between h-full">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 text-transparent bg-clip-text hover:scale-105 transition-transform"
-          >
-            BPulse
-          </Link>
+          <div className="flex items-center space-x-2">
+            <Image
+              src={I1.src}
+              alt="BPulse Logo"
+              width={40}
+              height={40}
+              className="mr-2"
+            />
+
+            <Link
+              href="/"
+              className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-teal-400 text-transparent bg-clip-text hover:scale-105 transition-transform"
+            >
+              BPulse
+            </Link>
+          </div>
 
           <button
             className="md:hidden text-white"

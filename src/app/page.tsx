@@ -78,9 +78,9 @@ export default function Home() {
         setDeviceId={setDeviceId}
         onSubmit={handleStartMenuSubmit}
       />
-      <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
-        <aside className="w-full md:w-64 bg-white shadow-md p-6 border-r">
-          <h1 className="text-2xl font-bold mb-6">BPulse Device</h1>
+      <div className="flex flex-1 flex-col md:flex-row bg-gray-50">
+        <aside className="w-full md:w-64 bg-white shadow-md p-4 border-r">
+          <h1 className="text-2xl font-bold mb-2">BPulse Device</h1>
 
           {/* <div className="flex items-center space-x-2">
             <div
@@ -107,9 +107,9 @@ export default function Home() {
           </div>
         </aside>
 
-        <main className="flex-1 p-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <main className="flex-1 p-3">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
               <GaugeMeter
                 minValue={0}
                 maxValue={24}

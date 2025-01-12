@@ -41,7 +41,7 @@ export function StartMenu({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[425px] max-w-72">
+      <DialogContent className="sm:max-w-[425px] max-w-[90vw]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Enter BPulse Device Details</DialogTitle>

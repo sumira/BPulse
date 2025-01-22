@@ -1,6 +1,6 @@
-import { useUserStore } from "@/store/userStore";
-("use client");
+"use client";
 
+import { useUserStore } from "@/store/userStore";
 import { useEffect, useState, useRef } from "react";
 import { GaugeMeter } from "./Components/guage-meter";
 import { Battery, Thermometer, Zap } from "lucide-react";
@@ -23,6 +23,7 @@ export default function Home() {
   const handleStartMenuSubmit = () => {
     if (userId && deviceId) {
       console.log("User ID:", userId && "Device ID:", userId, deviceId);
+      console.log("Executing Handle submit");
     }
   };
 

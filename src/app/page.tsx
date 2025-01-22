@@ -1,4 +1,5 @@
-"use client";
+import { useUserStore } from "@/store/userStore";
+("use client");
 
 import { useEffect, useState, useRef } from "react";
 import { GaugeMeter } from "./Components/guage-meter";
@@ -17,8 +18,7 @@ export default function Home() {
   const startTime = useRef(new Date());
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const [userId, setUserId] = useState("");
-  const [deviceId, setDeviceId] = useState("");
+  const { userId, deviceId, setUserId, setDeviceId } = useUserStore();
 
   const handleStartMenuSubmit = () => {
     if (userId && deviceId) {
@@ -32,6 +32,8 @@ export default function Home() {
       const fetchData = async () => {
         try {
           console.log("Fetching data...");
+          console.log(`Current User ID: ${userId}, Device ID: ${deviceId}`);
+
           const response = await fetch("/api/mqtt/data");
           const data = await response.json();
           setTemperature(data.temperature);
@@ -58,7 +60,7 @@ export default function Home() {
     } catch (err) {
       console.error("Error fetching data:", err);
     }
-  }, []);
+  }, [userId, deviceId]);
 
   const formatElapsedTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);

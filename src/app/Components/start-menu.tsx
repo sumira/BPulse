@@ -74,7 +74,7 @@ export function StartMenu({
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit">Conenct</Button>
           </DialogFooter>
         </form>
       </DialogContent>

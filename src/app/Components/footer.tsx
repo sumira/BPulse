@@ -1,47 +1,24 @@
 import React from "react";
 import Link from "next/link";
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { MdMail, MdPhone } from "react-icons/md";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-4 mt-auto">
+    <footer className="bg-gray-800 text-white py-8">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left justify-items-center">
-          <div>
-            <h3 className="text-xl font-bold mb ">BPulse</h3>
-            <p className="text-gray-300">
-              Optimized Battery Testing, Redefined
+        {/* Copyright */}
+        <div className="display-flex">
+          <div className="border-t border-gray-700 pt-4 text-center">
+            <p className="text-gray-300 text-sm">
+              © {new Date().getFullYear()} BPulse. All rights reserved.
             </p>
           </div>
-
-          <div className="flex flex-col items-center">
-            <h3 className="text-xl font-bold mb">Quick Links</h3>
-            <ul className="flex flex-col md:flex-row md:space-x-4 space-y-2 md:space-y-0">
-              <li>
-                <Link href="/" className="text-gray-300 hover:text-white">
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/allerts"
-                  className="text-gray-300 hover:text-white"
-                >
-                  Alerts
-                </Link>
-              </li>
-              <li>
-                <Link href="/guide" className="text-gray-300 hover:text-white">
-                  User Guide
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-xl font-bold mb">Contact Us</h3>
-            <p className="text-gray-300">Z Labs</p>
-            <p className="text-gray-300">sumiragp@gmail.com</p>
-            <p className="text-gray-300">+94 70 5 931 999</p>
+          <div className="flex space-x-4 justify-center md:justify-start">
+            <FaFacebook className="w-5 h-5 text-gray-300 hover:text-white cursor-pointer" />
+            <FaTwitter className="w-5 h-5 text-gray-300 hover:text-white cursor-pointer" />
+            <FaLinkedin className="w-5 h-5 text-gray-300 hover:text-white cursor-pointer" />
+            <FaInstagram className="w-5 h-5 text-gray-300 hover:text-white cursor-pointer" />
           </div>
         </div>
       </div>

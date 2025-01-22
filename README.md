@@ -46,10 +46,6 @@ To learn more about Next.js, explore the following resources:
 
 The easiest way to deploy this application is through the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme). Follow the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for detailed instructions.
 
-## Project Images
-![Image](https://github.com/user-attachments/assets/f8d54e0b-dee1-4e20-9df6-8ffab257dcba)
-![Image](https://github.com/user-attachments/assets/f18f3a59-cd57-4a0a-999c-44ba407970cf)
-
 ---
 
 Feel free to reach out for feedback or contributions to the project. Let's make BPulse better together!

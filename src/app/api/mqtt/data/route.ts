@@ -1,22 +1,31 @@
-import {NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import MQTTBackendService from '@/lib/mqtt';
+import { connectDB } from '@/lib/db';
+import { Reading } from '@/models/reading';
 
-export async function GET(): Promise<NextResponse> {
+export async function GET() {
   try {
+    await connectDB();
     const mqtt = MQTTBackendService.getInstance();
+    
     const temperature = mqtt.getTopicValue('bpulse/temperature');
     const voltage = mqtt.getTopicValue('bpulse/voltage');
     const current = mqtt.getTopicValue('bpulse/current');
 
-    // if (temperature === undefined || voltage === undefined || current === undefined) {
-    //   return NextResponse.json(
-    //     { error: 'Topic data not found' }
-    //   );
-    // }
+    await Reading.create({
+      temperature,
+      voltage,
+      current,
+      timestamp: new Date()
+    });
 
-    return NextResponse.json({ temperature, voltage, current });
+    const latestReading = await Reading.findOne()
+      .sort({ timestamp: -1 })
+      .select('temperature voltage current timestamp');
+
+    return NextResponse.json(latestReading);
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

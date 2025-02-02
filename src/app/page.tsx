@@ -56,7 +56,7 @@ export default function Home() {
         );
       }, 1000);
 
-      const interval = setInterval(fetchData, 1000);
+      const interval = setInterval(fetchData, 5000);
       return () => clearInterval(interval);
     } catch (err) {
       console.error("Error fetching data:", err);

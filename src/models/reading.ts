@@ -4,6 +4,7 @@ const ReadingSchema = new mongoose.Schema({
   temperature: Number,
   voltage: Number,
   current: Number,
+  status: String,
   timestamp: { type: Date, default: Date.now },
   userId: String,
   deviceId: String

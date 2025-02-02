@@ -30,6 +30,31 @@ class MQTTBackendService {
     });
   }
 
+  public publishToTopic(topic: string, message: string) {
+    try {
+      console.log('Publishing to topic:', topic);
+      if (!this.client.connected) {
+        throw new Error('MQTT client not connected');
+      }
+
+      const options = {
+        qos: 1 as 0 | 1 | 2,
+        retain: false
+      };
+
+      this.client.publish(topic, message, options, (error) => {
+        if (error) {
+          console.error(`Error publishing to ${topic}:`, error);
+        } else {
+          console.log(`Published to ${topic}: ${message}`);
+        }
+      });
+    } catch (error) {
+      console.error('Error in publishToTopic:', error);
+      throw error;
+    }
+  }
+
   private subscribeToTopics() {
     const topics = [
       'bpulse/status',

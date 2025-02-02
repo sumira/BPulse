@@ -7,7 +7,11 @@ export async function GET() {
     try {
         await connectDB();
         const readings = await Reading.find().sort({ timestamp: -1 }).limit(10);
-        return NextResponse.json(readings);
+        const data = readings.map((reading) => ({temperature: reading.temperature, timestamp: reading.timestamp})).reverse();
+        
+
+
+        return NextResponse.json({ data });
     } catch (error) {
         console.error('Error:', error);
         return NextResponse.json(

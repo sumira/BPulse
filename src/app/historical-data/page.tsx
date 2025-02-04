@@ -9,7 +9,7 @@ const BPulseDashboard = () => {
   useEffect(() => {
     const fetchTemperatureData = async () => {
       try {
-        const response = await fetch("api/chart/temperature");
+        const response = await fetch("api/chart/chart-data");
         const result = await response.json();
 
         if (result.data) {

@@ -1,5 +1,5 @@
-"use client";
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +10,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Chart } from "chart.js";
 
 ChartJS.register(
   CategoryScale,
@@ -22,81 +21,43 @@ ChartJS.register(
   Legend
 );
 
-interface TempChartProps {
-  temperatures: number[];
+interface ChartProps {
+  data: number[];
   timestamps: string[];
 }
 
-export default function TempChart({
-  temperatures,
-  timestamps,
-}: TempChartProps) {
-  const chartRef = useRef<HTMLCanvasElement>(null);
-  const chartInstance = useRef<Chart | null>(null);
-
-  useEffect(() => {
-    if (!chartRef.current) return;
-
-    const ctx = chartRef.current.getContext("2d");
-    if (!ctx) return;
-
-    if (chartInstance.current) {
-      chartInstance.current.destroy();
-    }
-
-    chartInstance.current = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: timestamps,
-        datasets: [
-          {
-            label: "Temperature (°C)",
-            data: temperatures,
-            borderColor: "rgb(255, 99, 132)",
-            backgroundColor: "rgba(255, 99, 132, 0.5)",
-            tension: 0.4,
-            fill: true,
-          },
-        ],
+const TemperatureChart: React.FC<ChartProps> = ({ data, timestamps }) => {
+  const chartData = {
+    labels: timestamps,
+    datasets: [
+      {
+        label: "Temperature (°C)",
+        data: data,
+        borderColor: "#ff6b6b",
+        backgroundColor: "rgba(255, 107, 107, 0.2)",
+        tension: 0.3,
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { position: "top" },
-          title: {
-            display: true,
-            text: "Temperature History",
-          },
-        },
-        scales: {
-          y: {
-            beginAtZero: false,
-            title: {
-              display: true,
-              text: "Temperature (°C)",
-            },
-          },
-          x: {
-            title: {
-              display: true,
-              text: "Time",
-            },
-          },
-        },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: true,
       },
-    });
+    },
+    scales: {
+      x: {
+        display: true,
+      },
+      y: {
+        beginAtZero: false,
+      },
+    },
+  };
 
-    return () => {
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-      }
-    };
-  }, [temperatures, timestamps]);
+  return <Line data={chartData} options={options} />;
+};
 
-  return (
-    <div className="w-full h-[400px] p-4 bg-white rounded-lg shadow-lg">
-      <canvas ref={chartRef}></canvas>
-    </div>
-  );
-}
+export default TemperatureChart;

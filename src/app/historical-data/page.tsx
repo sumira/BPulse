@@ -41,11 +41,19 @@ const BPulseDashboard = () => {
     <>
       <div className="p-4 w-2/3 h-1/4 mx-auto">
         <h2 className="text-xl font-bold mb-4">Temperature Chart</h2>
-        <TempChart data={temperatureData} timestamps={timestamps} />
+        <div className="mb-6">
+          <TempChart data={temperatureData} timestamps={timestamps} />
+        </div>
+
         <h2 className="text-xl font-bold mb-4">Current Chart</h2>
-        <CurrentChart data={CurrentData} timestamps={timestamps} />
+        <div className="mb-6">
+          <CurrentChart data={CurrentData} timestamps={timestamps} />
+        </div>
+
         <h2 className="text-xl font-bold mb-4">Voltage Chart</h2>
-        <VoltageChart data={VoltageData} timestamps={timestamps} />
+        <div className="mb-6">
+          <VoltageChart data={VoltageData} timestamps={timestamps} />
+        </div>
       </div>
     </>
   );

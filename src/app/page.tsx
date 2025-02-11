@@ -1,40 +1,48 @@
 "use client";
-
-import { useUserStore } from "@/store/userStore";
 import { useEffect, useState, useRef } from "react";
 import { GaugeMeter } from "./Components/guage-meter";
 import { Battery, Thermometer, Zap } from "lucide-react";
-import { StartMenu } from "./Components/start-menu";
+import { FaPowerOff, FaPlay } from "react-icons/fa";
 
 export default function Home() {
-  //const [connectionStatus, setConnectionStatus] = useState("Disconnected");
+  const [connectionStatus, setConnectionStatus] = useState("stop");
   const [temperature, setTemperature] = useState(0);
   const [voltage, setVoltage] = useState(0);
   const [current, setCurrent] = useState(0);
-  // const [current, setCurrent] = useState<number | null>(null);
+  const [isRunning, setIsRunning] = useState(false);
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const [elapsedTime, setElapsedTime] = useState(0);
   const startTime = useRef(new Date());
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { userId, deviceId, setUserId, setDeviceId } = useUserStore();
+  const postConnectionStatus = async (status: string) => {
+    try {
+      console.log("Posting connection status...");
+      const response = await fetch("/api/mqtt/status", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status }),
+      });
 
-  const handleStartMenuSubmit = () => {
-    if (userId && deviceId) {
-      console.log("User ID:", userId && "Device ID:", userId, deviceId);
-      console.log("Executing Handle submit");
+      if (!response.ok) {
+        console.error("Failed to post connection status:", response.status);
+        return null;
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error posting connection status:", error);
+      return null;
     }
   };
 
   useEffect(() => {
     try {
-      //endpoint for fetching temperature data
-      const fetchData = async () => {
+      const fetchDataAndUpdateStatus = async () => {
         try {
           console.log("Fetching data...");
-          console.log(`Current User ID: ${userId}, Device ID: ${deviceId}`);
-
           const response = await fetch("/api/mqtt/data");
           const data = await response.json();
           setTemperature(data.temperature);
@@ -47,21 +55,43 @@ export default function Home() {
         }
       };
 
-      timerRef.current = setInterval(() => {
-        setCurrentTime(new Date());
-        setElapsedTime(
-          Math.floor(
-            (new Date().getTime() - startTime.current.getTime()) / 1000
-          )
-        );
-      }, 1000);
+      const startTimer = () => {
+        startTime.current = new Date();
+        timerRef.current = setInterval(() => {
+          setCurrentTime(new Date());
+          setElapsedTime(
+            Math.floor(
+              (new Date().getTime() - startTime.current.getTime()) / 1000
+            )
+          );
+        }, 1000);
+      };
 
-      const interval = setInterval(fetchData, 5000);
-      return () => clearInterval(interval);
+      const stopTimer = () => {
+        if (timerRef.current) {
+          clearInterval(timerRef.current);
+          timerRef.current = null;
+        }
+      };
+
+      if (isRunning) {
+        startTimer();
+      } else {
+        stopTimer();
+        setElapsedTime(0);
+      }
+
+      const interval = setInterval(fetchDataAndUpdateStatus, 5000);
+      fetchDataAndUpdateStatus();
+
+      return () => {
+        clearInterval(interval);
+        stopTimer();
+      };
     } catch (err) {
-      console.error("Error fetching data:", err);
+      console.error("Error in useEffect:", err);
     }
-  }, [userId, deviceId]);
+  }, [isRunning]);
 
   const formatElapsedTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -72,27 +102,29 @@ export default function Home() {
       .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
+  const handleStartStop = async () => {
+    const newStatus = !isRunning;
+    setIsRunning(newStatus);
+    const newConnectionStatus = newStatus ? "start" : "stop";
+    setConnectionStatus(newConnectionStatus);
+    console.log("Start/Stop:", newStatus);
+    await postConnectionStatus(newConnectionStatus);
+  };
+
   return (
     <>
-      <StartMenu
-        userId={userId}
-        deviceId={deviceId}
-        setUserId={setUserId}
-        setDeviceId={setDeviceId}
-        onSubmit={handleStartMenuSubmit}
-      />
       <div className="flex flex-1 flex-col md:flex-row bg-gray-50">
         <aside className="w-full md:w-64 bg-white shadow-md p-4 border-r">
           <h1 className="text-2xl font-bold mb-2">BPulse Device</h1>
 
-          {/* <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2">
             <div
               className={`w-3 h-3 rounded-full ${
-                connectionStatus === "Connected" ? "bg-green-500" : "bg-red-500"
+                connectionStatus === "start" ? "bg-green-500" : "bg-red-500"
               }`}
             />
             <p className="text-gray-600">Status: {connectionStatus}</p>
-          </div> */}
+          </div>
 
           <div className="mb-6 space-y-2 py-3">
             <div className="flex items-center justify-between">
@@ -108,6 +140,25 @@ export default function Home() {
               </span>
             </div>
           </div>
+
+          <button
+            onClick={handleStartStop}
+            className={`flex items-center justify-center w-full p-2 rounded-md ${
+              isRunning
+                ? "bg-red-500 hover:bg-red-700 text-white"
+                : "bg-green-500 hover:bg-green-700 text-white"
+            }`}
+          >
+            {isRunning ? (
+              <>
+                <FaPowerOff className="mr-2" /> Stop
+              </>
+            ) : (
+              <>
+                <FaPlay className="mr-2" /> Start
+              </>
+            )}
+          </button>
         </aside>
 
         <main className="flex-1 px-3 py-4">

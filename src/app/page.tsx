@@ -9,7 +9,10 @@ export default function Home() {
   const [temperature, setTemperature] = useState(0);
   const [voltage, setVoltage] = useState(0);
   const [current, setCurrent] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
+  const [isRunning, setIsRunning] = useState(() => {
+    const storedIsRunning = localStorage.getItem("isRunning");
+    return storedIsRunning === "true" || false;
+  });
 
   const [currentTime, setCurrentTime] = useState(new Date());
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -91,6 +94,10 @@ export default function Home() {
     } catch (err) {
       console.error("Error in useEffect:", err);
     }
+  }, [isRunning]);
+
+  useEffect(() => {
+    localStorage.setItem("isRunning", String(isRunning));
   }, [isRunning]);
 
   const formatElapsedTime = (seconds: number) => {
